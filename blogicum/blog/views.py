@@ -1,5 +1,6 @@
-from django.shortcuts import render
 from django.http import Http404
+from django.shortcuts import render
+
 
 posts = [
     {
@@ -44,14 +45,15 @@ posts = [
     },
 ]
 
+posts_ids = {
+    posts[i]['id']: posts[i] for i in range(len(posts))
+}
+
 
 def post_detail(request, post_id):
-    requested_post = None
-    for post in posts:
-        if post['id'] == post_id:
-            requested_post = post
-    if requested_post is None:
-        raise Http404
+    if post_id not in posts_ids:
+        raise Http404('Поста с таким ID не существует')
+    requested_post = posts_ids[post_id]
     return render(request, 'blog/detail.html', {'post': requested_post})
 
 
