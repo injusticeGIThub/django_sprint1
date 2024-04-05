@@ -46,15 +46,14 @@ posts = [
 ]
 
 posts_ids = {
-    posts[i]['id']: posts[i] for i in range(len(posts))
+    post['id']: post for post in posts
 }
 
 
 def post_detail(request, post_id):
     if post_id not in posts_ids:
-        raise Http404('Поста с таким ID не существует')
-    requested_post = posts_ids[post_id]
-    return render(request, 'blog/detail.html', {'post': requested_post})
+        raise Http404(f'Поста с ID: {post_id} не существует')
+    return render(request, 'blog/detail.html', {'post': posts_ids[post_id]})
 
 
 def index(request):
